@@ -1,0 +1,14 @@
+.navbar-brand{
+    color: green;
+    font-weight: bold;
+}
+
+.navbar{
+    background-color: rgb(82, 150, 228);
+}
+
+.nav-item a:hover{
+    color: rgb(240, 65, 103);
+    font-weight: bold;
+    font-stretch: expanded;
+}

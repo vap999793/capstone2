@@ -1,0 +1,47 @@
+<div class="text-center mt-4">
+    <form class="form-signin border rounded" [formGroup]="registerForm" (submit)='signup($event)'>
+        <img class="mb-4" src="assets/cart.png" alt="" width="72" height="72">
+        <h1 class="h3 mb-3 font-weight-normal">Please sign up</h1>
+        <hr>
+
+        <p *ngIf="error" class="alert alert-danger">{{error}}</p>
+        <p *ngIf="success" class="alert alert-success">{{success}}</p>
+
+        <span
+            *ngIf="registerForm.get('name').errors?.required && (registerForm.get('name').touched || !registerForm.get('name').pristine)"
+            id="username" class="text-danger font-weight-bold">
+            **Name is required
+        </span>
+        <input type="text" id="name" formControlName="name" name="name" class="form-control mb-2" placeholder="Your Name" required autofocus>
+
+        <span
+            *ngIf="registerForm.get('email').errors?.required && (registerForm.get('email').touched || !registerForm.get('email').pristine)"
+            id="username" class="text-danger font-weight-bold">
+            **Email is required
+        </span>
+        <input type="email" id="inputEmail" formControlName="email" name="email" class="form-control mb-2" placeholder="Email address" required
+            autofocus>
+
+        <label for="inputPassword" class="sr-only">Password</label>
+        <span class="text-danger font-weight-bold"
+            *ngIf="(registerForm.get('password').touched || !registerForm.get('password').pristine) && registerForm.get('password').errors?.required">
+            **Password is required
+        </span>
+        <input type="password" id="inputPassword" formControlName="password" name="password" class="form-control mb-2" placeholder="Password"
+            required>
+
+        <span *ngIf="(f.mobileNumber.touched || !f.mobileNumber.pristine) && f.mobileNumber.invalid"
+            class="text-danger font-weight-bold">
+            <div *ngIf="f.mobileNumber.errors.required">**Mobile Number is required.</div>
+            <div *ngIf="f.mobileNumber.errors.pattern">**Please, Enter 10 digit Mobile Number.</div>
+        </span>
+        <input type="number" id="phone" name="phone" formControlName="mobileNumber" class="form-control mb-2" placeholder="Mobile" required>
+        <div class="checkbox mb-3">
+            <label>
+                <input type="checkbox" value="remember-me"> Remember me
+            </label>
+        </div>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Create Account</button>
+        <p class="mt-5 mb-3 text-muted">&copy; 2020</p>
+    </form>
+</div>

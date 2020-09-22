@@ -1,0 +1,180 @@
+<div class="container p-3 m-3 mx-auto" *ngIf='cartItems.length!=0; else noItems'>
+    <h1 class="display-4">Cart</h1>
+    <table class="table mx-auto">
+        <thead>
+            <tr>
+                <th>Sno.</th>
+                <th>Image</th>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr *ngFor="let item of cartItems;index as i">
+                <td>{{i+1}}</td>
+                <td><img src="http://localhost/{{item.product.productImage}}" alt="..." height="80px"
+                        class="rounded-circle"></td>
+                <td>{{item.product.name}}</td>
+                <td>
+                    <app-product-quantity [product]='item.product'></app-product-quantity>
+                </td>
+                <td>₹ {{item.product.price}}</td>
+                <td>₹ {{item.quantity * item.product.price}}</td>
+            </tr>
+        </tbody>
+
+
+        <tfoot>
+            <tr>
+                <th colspan="2"></th>
+                <th colspan="3">Total</th>
+                <th>₹ {{total}}</th>
+            </tr>
+        </tfoot>
+
+    </table>
+
+    <hr>
+
+    <button class="btn btn-outline-dark col-lg-4" (click)='openModal(form);'>Check out</button>
+    <hr>
+
+
+
+</div>
+
+<ng-template #noItems>
+    <div class="mt-4 pt-4">
+        <div class="jumbotron bg-white border container p-4 m-4 mx-auto">
+            <h1 class="display-4">Cart is Empty</h1>
+            <p class="lead">Go to Store to add items in the cart
+                <a class="nav-link" routerLink="">Go to Store <span class="sr-only">(current)</span></a>
+            </p>
+            <hr class="my-4">
+            <p>More info</p>
+            <p class="lead">
+                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aspernatur quis, voluptatem a expedita rem
+                mollitia porro veritatis vel possimus iure ipsum ipsam culpa totam nemo natus error magnam. Rem, ea.
+            </p>
+        </div>
+    </div>
+
+</ng-template>
+
+<!-- Check Out form -->
+
+<ng-template #form>
+
+    <div class="container">
+        <div class="py-5 text-center">
+            <h2>Checkout form</h2>
+
+        </div>
+
+        <div class="row">
+            <div class="col-md-5 mx-auto border-left order-md-2 mb-4">
+                <h4 class="d-flex justify-content-between align-items-center mb-3">
+                    <span class="text-muted">Your cart</span>
+                    <span class="badge badge-secondary badge-pill">{{cartItems?.length}}</span>
+                </h4>
+                <ul class="list-group mb-3">
+                    <li *ngFor="let item of cartItems;index as i"
+                        class="list-group-item d-flex justify-content-between lh-condensed">
+                        <div>
+                            <h6 class="my-0">{{item.quantity}} * {{item.product.name}}</h6>
+                            <small class="text-muted"></small>
+                        </div>
+                        <span class="text-muted">₹{{item.product.price * item.quantity}}</span>
+                    </li>
+
+
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>Total (INR)</span>
+                        <strong>₹{{total}}</strong>
+                    </li>
+                </ul>
+
+                <form class="card p-2">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Promo code">
+                        <div class="input-group-append">
+                            <button type="submit" class="btn btn-secondary">Redeem</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-6 border-right order-md-1">
+                <h4 class="mb-3">Billing address</h4>
+                <form #checkOutForm (submit)='checkout($event, checkOutForm);' class="needs-validation" method="POST"
+                    action="javascript:void(0);" >
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="firstName">First name</label>
+                            <input type="text" class="form-control" name="firstName" id="firstName" placeholder=""
+                                value="" required>
+                            <div class="invalid-feedback">
+                                Valid first name is required.
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="lastName">Last name</label>
+                            <input type="text" class="form-control" name="lastName" id="lastName" placeholder=""
+                                value="" required>
+                            <div class="invalid-feedback">
+                                Valid last name is required.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="address">Address</label>
+                        <input type="text" class="form-control" name="address" id="address" placeholder="1234 Main St"
+                            required>
+                        <div class="invalid-feedback">
+                            Please enter your shipping address.
+                        </div>
+                    </div>
+
+
+
+
+                    <h4 class="mb-3">Payment</h4>
+
+                    <div class="d-block my-3">
+                        <div class="custom-control custom-radio">
+                            <input id="credit" name="paymentMethod" type="radio" disabled class="custom-control-input"
+                                required>
+                            <label class="custom-control-label" for="credit">Credit card</label>
+                        </div>
+                        <div class="custom-control custom-radio">
+                            <input id="debit" name="paymentMethod" type="radio" disabled class="custom-control-input"
+                                required>
+                            <label class="custom-control-label" for="debit">Debit card</label>
+                        </div>
+                        <div class="custom-control custom-radio">
+                            <input id="paypal" name="paymentMethod" type="radio" disabled class="custom-control-input"
+                                required>
+                            <label class="custom-control-label" for="paypal">PayPal</label>
+                        </div>
+
+                        <div class="custom-control custom-radio">
+                            <input id="paypal" name="paymentMethod" type="radio" checked class="custom-control-input"
+                                required>
+                            <label class="custom-control-label" for="paypal">COD</label>
+                        </div>
+
+                    </div>
+
+                    <hr class="mb-4">
+                    <button class="btn btn-outline-primary btn btn-block mb-2" type="submit">Continue
+                        to checkout</button>
+                </form>
+            </div>
+        </div>
+
+
+    </div>
+</ng-template>
